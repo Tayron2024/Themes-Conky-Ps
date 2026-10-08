@@ -1,0 +1,90 @@
+conky.config = {
+    background = false,
+    use_xft = true,
+    font = 'Montserrat:size=8',
+    xftalpha = 1.0,
+    update_interval = 1.0,
+    total_run_times = 0,
+
+    out_to_x = false,
+    out_to_wayland = true,
+    own_window = true,
+    own_window_type = 'desktop',
+    own_window_transparent = true,
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+    own_window_class = 'ConkyRight',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+
+    draw_borders = false,
+    border_width = 0,
+    border_inner_margin = 15,
+    border_outer_margin = 0,
+
+    draw_graph_borders = true,
+    default_outline_color = '#FFD700',
+
+    draw_shades = false,
+    draw_outline = false,
+
+    double_buffer = true,
+    minimum_width = 370,
+    maximum_width = 370,
+
+    default_color = '#FFFFFF',
+    color1 = '#FFD700', -- Amarillo Dorado
+    color2 = '#A0A0A0', -- Gris etiquetas
+    color3 = '#FFE57F', -- Amarillo suave
+    color4 = '#FFFFFF', -- Blanco brillante
+    color5 = '#FFC107', -- Amber/Amarillo cálido
+
+    alignment = 'top_right',
+    gap_x = 35,
+    gap_y = 40,
+    no_buffers = true,
+    uppercase = true,
+    cpu_avg_samples = 2,
+    use_spacer = 'none',
+    short_units = true,
+}
+
+conky.text = [[
+${alignc}${font Montserrat:style=Bold:size=11}${color1}T E L E M E T R Í A   D E L   P R O C E S A D O R${font}
+${color1}${hr 1}${color}
+
+${color2}MODELO:${goto 130}${color1}INTEL ULTRA 7 255HX${color}
+${color2}FRECUENCIA:${goto 130}${color4}${freq_g} GHZ${alignr}${color2}TEMP:${color} ${color1}${execi 2 sensors | grep -m1 -E 'Package id 0:|Core 0:|temp1:' | awk '{print $4}' | tr -d '+'}${color}
+${color2}USO DE CPU:${goto 130}${color1}${cpu}%${color}
+${color1}${cpubar 3,340}${color}
+
+${voffset 8}${alignc}${font Montserrat:style=Bold:size=11}${color1}G P U ,   V E N T I L A D O R E S   Y   E N E R G Í A${font}
+${color1}${hr 1}${color}
+
+${color2}DISPOSITIVO:${goto 130}${color1}${execi 60 nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo "NVIDIA RTX 5060"}${color}
+${color2}USO GPU:${goto 130}${color1}${execi 2 nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader 2>/dev/null || echo "0 %"}${alignr}${color2}TEMP: ${color1}${execi 2 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader 2>/dev/null || echo "0"}°C${color}
+${color2}FREC NÚCLEO:${goto 130}${color4}${execi 2 nvidia-smi --query-gpu=clocks.gr --format=csv,noheader,nounits 2>/dev/null || echo "0"} MHz${alignr}${color2}FREC MEM: ${color4}${execi 2 nvidia-smi --query-gpu=clocks.mem --format=csv,noheader,nounits 2>/dev/null || echo "0"} MHz${color}
+${color2}CONSUMO GPU:${goto 130}${color4}${execi 2 nvidia-smi --query-gpu=power.draw --format=csv,noheader 2>/dev/null || echo "0.00 W"}${alignr}${color2}VRAM: ${color1}${execi 2 nvidia-smi --query-gpu=memory.used --format=csv,noheader 2>/dev/null || echo "0 MiB"}${color}
+${color1}${execibar 2 nvidia-smi --query-gpu=utilization.memory --format=csv,noheader,nounits 2>/dev/null || echo "0" 3,340}$color
+
+${voffset 4}${color2}VENTILADOR 1 (CPU):${goto 170}${color3}${execi 2 sensors | grep -i -m1 'fan1' | awk '{print $2, $3}' || echo "N/A RPM"}${color}
+${color2}VENTILADOR 2 (GPU):${goto 170}${color3}${execi 2 sensors | grep -i -m1 'fan2' | awk '{print $2, $3}' || echo "N/A RPM"}${color}
+
+${voffset 4}${color2}ALIMENTACIÓN AC:${goto 140}${execi 2 sh -c 'grep -q 1 /sys/class/power_supply/AD*/online /sys/class/power_supply/AC*/online 2>/dev/null && echo "${color3}CONECTADO$color" || echo "${color1}DESCONECTADO$color"'}
+${color2}ESTADO CARGA:${goto 140}${color4}${battery_short BAT0}${alignr}${color2}PORCENTAJE: ${color1}${battery_percent BAT0}%${color}
+${execi 2 sh -c 'grep -q 0 /sys/class/power_supply/AD*/online /sys/class/power_supply/AC*/online 2>/dev/null && echo "${color2}TIEMPO RESTANTE:${goto 140}${color1}${battery_time BAT0}$color"'}
+${color2}CONSUMO BATERÍA:${goto 140}${color4}${execi 2 cat /sys/class/power_supply/BAT0/power_now 2>/dev/null | awk '{printf "%.2f W", $1/1000000}' || echo "0.00 W"}${color}
+${color1}${battery_bar 3,340 BAT0}${color}
+
+${voffset 8}${alignc}${font Montserrat:style=Bold:size=10}${color1}N Ú C L E O S   (2 0   C O R E S)${font}
+${color1}${hr 1}${color}
+${color2}CPU01 ${color1}${cpu cpu1}% ${cpubar cpu1 3,75}$color ${alignr}${color2}CPU11 ${color1}${cpu cpu11}% ${cpubar cpu11 3,75}$color
+${color2}CPU02 ${color1}${cpu cpu2}% ${cpubar cpu2 3,75}$color ${alignr}${color2}CPU12 ${color1}${cpu cpu12}% ${cpubar cpu12 3,75}$color
+${color2}CPU03 ${color1}${cpu cpu3}% ${cpubar cpu3 3,75}$color ${alignr}${color2}CPU13 ${color1}${cpu cpu13}% ${cpubar cpu13 3,75}$color
+${color2}CPU04 ${color1}${cpu cpu4}% ${cpubar cpu4 3,75}$color ${alignr}${color2}CPU14 ${color1}${cpu cpu14}% ${cpubar cpu14 3,75}$color
+${color2}CPU05 ${color1}${cpu cpu5}% ${cpubar cpu5 3,75}$color ${alignr}${color2}CPU15 ${color1}${cpu cpu15}% ${cpubar cpu15 3,75}$color
+${color2}CPU06 ${color1}${cpu cpu6}% ${cpubar cpu6 3,75}$color ${alignr}${color2}CPU16 ${color1}${cpu cpu16}% ${cpubar cpu16 3,75}$color
+${color2}CPU07 ${color1}${cpu cpu7}% ${cpubar cpu7 3,75}$color ${alignr}${color2}CPU17 ${color1}${cpu cpu17}% ${cpubar cpu17 3,75}$color
+${color2}CPU08 ${color1}${cpu cpu8}% ${cpubar cpu8 3,75}$color ${alignr}${color2}CPU18 ${color1}${cpu cpu18}% ${cpubar cpu18 3,75}$color
+${color2}CPU09 ${color1}${cpu cpu9}% ${cpubar cpu9 3,75}$color ${alignr}${color2}CPU19 ${color1}${cpu cpu19}% ${cpubar cpu19 3,75}$color
+${color2}CPU10 ${color1}${cpu cpu10}% ${cpubar cpu10 3,75}$color ${alignr}${color2}CPU20 ${color1}${cpu cpu20}% ${cpubar cpu20 3,75}$color
+]]

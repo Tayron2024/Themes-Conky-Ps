@@ -1,0 +1,7 @@
+default_outline_color = '#BD93F9',
+    default_color = '#FFFFFF',
+    color1 = '#BD93F9', -- Morado brillante
+    color2 = '#8D7B9D', -- Morado opaco etiquetas
+    color3 = '#FF79C6', -- Rosado neón
+    color4 = '#E2D1F9', -- Morado pastel
+    color5 = '#9B51E0', -- Violeta profundo

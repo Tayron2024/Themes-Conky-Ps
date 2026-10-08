@@ -1,0 +1,7 @@
+default_outline_color = '#50FA7B',
+    default_color = '#FFFFFF',
+    color1 = '#50FA7B', -- Verde Menta/Lima claro
+    color2 = '#6272A4', -- Gris Azulado Opaco (Etiquetas)
+    color3 = '#8BE9FD', -- Verde/Cian claro
+    color4 = '#C3F7D5', -- Verde menta pálido
+    color5 = '#258043', -- Verde opaco profundo

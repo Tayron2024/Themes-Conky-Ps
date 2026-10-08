@@ -1,0 +1,7 @@
+default_outline_color = '#FF3333',
+    default_color = '#FFFFFF',
+    color1 = '#FF3333', -- Rojo Neón
+    color2 = '#8D6E6E', -- Rojo opaco etiquetas
+    color3 = '#FF6666', -- Rojo brillante
+    color4 = '#FFCCCC', -- Rosado muy suave / Blanco cálido
+    color5 = '#CC0000', -- Rojo intenso

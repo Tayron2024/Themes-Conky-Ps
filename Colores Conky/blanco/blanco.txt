@@ -1,0 +1,7 @@
+default_outline_color = '#FFFFFF',
+    default_color = '#FFFFFF',
+    color1 = '#FFFFFF', -- Blanco puro (Títulos y destacados)
+    color2 = '#808080', -- Gris medio (Etiquetas)
+    color3 = '#D9D9D9', -- Gris claro
+    color4 = '#E6E6E6', -- Blanco suave
+    color5 = '#BFBFBF', -- Gris plata
